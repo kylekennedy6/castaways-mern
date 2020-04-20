@@ -1,4 +1,3 @@
-const { v4: uuid } = require('uuid');
 const { validationResult } = require('express-validator');
 
 const HttpError = require('../models/http-error');
@@ -175,10 +174,10 @@ const getGameById = async (req, res, next) => {
 
 const getGamesByUserId = async (req, res, next) => {
   const userId = req.params.uid;
-
   let games;
   try {
-    games = await Game.find({ users: { $in: [userId] } });
+    games = await Game.find();
+    console.log(games)
   } catch (err) {
     return next(
       new HttpError(
