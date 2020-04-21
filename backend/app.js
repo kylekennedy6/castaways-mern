@@ -10,6 +10,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
+  next();
+});
+
 app.use('/api/games', gamesRoutes); // => /api/games...
 app.use('/api/users', usersRoutes);
 
@@ -27,11 +38,13 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-  .connect('mongodb+srv://kylek321:teJJ2z2OacwXJvxJ@cluster0-9rura.mongodb.net/castaways?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+  .connect(
+    'mongodb+srv://kylek321:teJJ2z2OacwXJvxJ@cluster0-9rura.mongodb.net/castaways?retryWrites=true&w=majority',
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
+  )
   .then(() => {
     app.listen(5000);
   })
   .catch(err => {
     console.log(err);
   });
-

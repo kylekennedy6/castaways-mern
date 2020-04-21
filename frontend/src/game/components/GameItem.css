@@ -48,9 +48,10 @@
   margin: 0.5rem;
 }
 
-.island-container {
-  height: 20rem;
+.game-container {
+  height: 40rem;
   width: 100%;
+  background-image: url("https://lh3.googleusercontent.com/proxy/YMAJNnUsgPP7Yyb58-JpAPTy2aPquTavn255Qk2LcYTmb1e_LrDDa0z9H9zGK3byP4E6ohmT4im6B7OvdG5ZrssxKDspkgM");
 }
 
 @media (min-width: 768px) {

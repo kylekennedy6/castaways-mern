@@ -25,7 +25,7 @@ const GameList = props => {
           length={game.type}
           status={game.status}
           prize={game.prize}
-          players={game.players}
+          contestants={game.contestants}
         />
       ))}
     </ul>

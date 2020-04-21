@@ -21,9 +21,10 @@ const UserList = props => {
         <UserItem
           key={user.id}
           id={user.id}
-          name={user.name}
-          image={user.image}
-          winCount={user.winCount}
+          firstName={user.firstName}
+          lastName={user.lastName}
+          email={user.email}
+          games={user.games}
         />
       ))}
     </ul>

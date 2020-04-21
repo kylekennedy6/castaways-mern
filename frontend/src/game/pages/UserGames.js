@@ -1,43 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import GameList from '../components/GameList';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 
-const DUMMY_GAMES = [
-  {
-    id: 'g3',
-    length: 30,
-    status: 'In Progress',
-    prize: 10,
-    players: [
-      'u1',
-      'u2',
-    ]
-  },
-  {
-    id: 'g2',
-    length: 30,
-    status: 'Concluded',
-    prize: 10,
-    players: [
-      'u1', 'u2'
-    ]
-  },
-  {
-    id: 'g1',
-    length: 30,
-    status: 'Concluded',
-    prize: 10,
-    players: [
-      'u2', 'u3'
-    ]
-  },
-];
 
 const UserGames = () => {
+  const [loadedGames, setLoadedGames] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const userId = useParams().userId;
-  const loadedGames = DUMMY_GAMES.filter(game =>game.players.includes(userId))
-  return <GameList items={loadedGames} />;
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/games/user/${userId}`
+        );
+        setLoadedGames(responseData.games);
+      } catch (err) {}
+    };
+    fetchGames();
+  }, [sendRequest, userId]);
+
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && loadedGames && (
+        <GameList items={loadedGames} />
+      )}
+    </React.Fragment>
+  );
 };
 
 export default UserGames;
+

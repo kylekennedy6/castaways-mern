@@ -1,42 +1,36 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch,
+  Switch
 } from 'react-router-dom';
 
-import MainNavigation from './shared/components/Navigation/MainNavigation';
 import Users from './user/pages/Users';
 import NewGame from './game/pages/NewGame';
 import UserGames from './game/pages/UserGames';
+import GameHome from './game/pages/GameHome';
 import Auth from './user/pages/Auth';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
+import { useAuth } from './shared/hooks/auth-hook';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const login = useCallback(() => {
-    setIsLoggedIn(true);
-  }, []);
-
-  const logout = useCallback(() => {
-    setIsLoggedIn(false);
-  }, []);
+  const { token, login, logout, userId } = useAuth();
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-        <Route path="/:userId/player-history" exact>
+        <Route path="/games/:userId/" exact>
           <UserGames />
         </Route>
         <Route path="/game/new-game" exact>
           <NewGame />
+        </Route>
+        <Route path="/" exact>
+          <Users />
         </Route>
         <Redirect to="/" />
       </Switch>
@@ -44,12 +38,6 @@ const App = () => {
   } else {
     routes = (
       <Switch>
-        <Route path="/" exact>
-          <Users />
-        </Route>
-        <Route path="/:userId/player-history" exact>
-          <UserGames />
-        </Route>
         <Route path="/auth">
           <Auth />
         </Route>
@@ -60,7 +48,13 @@ const App = () => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout
+      }}
     >
       <Router>
         <MainNavigation />
