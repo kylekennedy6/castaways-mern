@@ -1,0 +1,34 @@
+.island-container {
+  display: flex;
+  position: relative;
+  left: 5%;
+  width: 95%;
+  height: 100%;
+}
+
+.contestants-column {
+  float: left;
+  width: 30%;
+  border: 1px solid orange;
+  border-radius: 6px;
+}
+
+.contestants-list__header {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  background: orange;
+  color: white;
+  font-size: .5rem;
+}
+
+.contestants-list__container {
+  width: 100%;
+  height: 100%;
+}
+
+.map-column {
+  margin-left: 2.5%;
+  width: 60%;
+  border: 1px solid orange;
+  border-radius: 6px;
+}

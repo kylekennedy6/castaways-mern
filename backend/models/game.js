@@ -7,7 +7,8 @@ const gameSchema = new Schema({
   status: { type: String, required: true },
   prize: { type: Number, required: true },
   users: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
-  contestants: [{ type: mongoose.Types.ObjectId, ref: 'Contestant' }],
+  tribeConversation: { type: mongoose.Types.ObjectId, ref: 'Conversation' },
+  contestants: [{ type: mongoose.Types.ObjectId, ref: 'Contestant' }], 
   remainingAvatarOptions: [{ type: String, required: true }]
 });
 

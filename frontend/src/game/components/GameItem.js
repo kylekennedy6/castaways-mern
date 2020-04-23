@@ -1,19 +1,15 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 
 import ContestantList from './ContestantList';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal.js';
-import Island from '../../shared/components/UIElements/Island';
-import { AuthContext } from '../../shared/context/auth-context';
 import './GameItem.css';
 
 const FULL_GAME = 4
 
 const GameItem = props => {
-  const auth = useContext(AuthContext);
   const [showIsland, setShowIsland] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const openIslandHandler = () => setShowIsland(true);
 
@@ -38,13 +34,14 @@ const GameItem = props => {
           <div className="game-item__info">
             <h2>{props.length}</h2>
             <h3>{props.status}</h3>
-            <p>Waiting for {FULL_GAME - props.contestants.length} More Players</p>
+            {props.status === 'Matchmaking' && <p>Waiting for {FULL_GAME - props.contestants.length} More Players</p>}
+  {props.status === 'In Progress' && <p>{props.contestantsRemaining.length} Players Remaining</p>}
           </div>
           <div className="game-item__actions">
-            <Button inverse onClick={openIslandHandler}>
+            <Button inverse to={`/game/${props.id}`}>
               GO TO ISLAND
             </Button>
-            <Button to={`games/${props.id}`}>VIEW GAME LOG</Button>
+            <Button to={`game/${props.id}`}>VIEW GAME LOG</Button>
           </div>
         </Card>
       </li>

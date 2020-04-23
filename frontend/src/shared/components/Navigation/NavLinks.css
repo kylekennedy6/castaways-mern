@@ -19,23 +19,27 @@
   color: #292929;
   text-decoration: none;
   padding: 0.5rem;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {
-  background: #f8df00;
-  border-color: #292929;
-  color: #292929;
+  background: #fd7f68;
+  border-color: white;
+  border-radius: 6px;
+  color: white;
 }
 
 .nav-links button {
   cursor: pointer;
-  border: 1px solid #292929;
+  border: 1px solid white;
   color: #292929;
   background: transparent;
   padding: 0.5rem;
   font: inherit;
+  font-size: 12px;
 }
 
 .nav-links button:focus {
@@ -63,14 +67,15 @@
   }
 
   .nav-links button {
-    border: 1px solid white;
+    border: none;
     color: white;
     background: transparent;
+    border-radius: 6px;
   }
   
   .nav-links button:hover,
   .nav-links button:active {
-    background: #f8df00;
-    color: #292929;
+    background: #fd7f68;
+    color: white;
   }
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import Logo from '../UIElements/Logo';
 import MainHeader from './MainHeader';
 import NavLinks from './NavLinks';
 import SideDrawer from './SideDrawer';
@@ -36,7 +37,9 @@ const MainNavigation = props => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">Castaways</Link>
+          <Link to="/">
+            <Logo alt="logo" />
+          </Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

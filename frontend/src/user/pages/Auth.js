@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-
+import { useHistory } from 'react-router-dom';
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
 import Button from '../../shared/components/FormElements/Button';
@@ -17,6 +17,7 @@ import './Auth.css';
 
 const Auth = () => {
   const auth = useContext(AuthContext);
+  const history = useHistory();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
@@ -35,7 +36,6 @@ const Auth = () => {
   );
 
   const switchModeHandler = () => {
-    console.log(auth)
     if (!isLoginMode) {
       setFormData(
         {
@@ -81,6 +81,7 @@ const Auth = () => {
           }
         );
         auth.login(responseData.userId, responseData.token);
+        history.push(`/my-games/${responseData.userId}`);
       } catch (err) {}
     } else {
       try {

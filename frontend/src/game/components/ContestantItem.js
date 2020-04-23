@@ -1,27 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
+
 import './ContestantItem.css';
 
 const ContestantItem = props => {
+  const userId = useParams().userId;
+
+  const [showChat, setShowChat] = useState(false);
+
+  const openChatHandler = () => {
+    console.log('Click');
+    setShowChat(true);
+  };
+
+  const closeChatHandler = () => {
+    setShowChat(false);
+  };
+
   return (
-    <li className="user-item">
-      <Card className="user-item__content">
-        <Link to="/">
-          <div className="user-item__image">
-            <Avatar image={props.avatar} alt={props.name} />
-          </div>
-          <div className="user-item__info">
-            <h4>{props.nickname}</h4>
-            <h5>
-              Player Type: {props.strategy}
-            </h5>
-          </div>
-        </Link>
-      </Card>
-    </li>
+    <React.Fragment>
+      <li className="contestant-item">
+        <Card className="contestant-item__content">
+          <Link onClick={openChatHandler}>
+            <div className="contestant-item__avatar">
+              <Avatar image={props.avatar} alt={props.nickname}/>
+            </div>
+            <div className="contestant-item__info">
+              <h3>{props.nickname}</h3>
+              <h4>Last Active: 10 minutes ago</h4>
+            </div>
+          </Link>
+        </Card>
+      </li>
+    </React.Fragment>
   );
 };
 

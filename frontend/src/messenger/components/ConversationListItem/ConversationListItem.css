@@ -1,0 +1,43 @@
+.conversation-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.conversation-list-item:hover {
+  background: #eeeef1;
+  cursor: pointer;
+}
+
+.conversation-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.conversation-title {
+  font-size: 16px;
+  font-weight: normal;
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.conversation-snippet {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+.delete-conversation-icon {
+  flex: 1;
+  padding: 10px;
+  display: none;
+  flex-direction: row-reverse;
+  margin-left: 20px;
+}
+
+.conversation-list-item:hover .delete-conversation-icon {
+  display: flex;
+}

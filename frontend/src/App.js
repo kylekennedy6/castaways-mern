@@ -6,10 +6,9 @@ import {
   Switch
 } from 'react-router-dom';
 
-import Users from './user/pages/Users';
 import NewGame from './game/pages/NewGame';
+import InProgressGame from './game/pages/InProgressGame';
 import UserGames from './game/pages/UserGames';
-import GameHome from './game/pages/GameHome';
 import Auth from './user/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
@@ -23,16 +22,16 @@ const App = () => {
   if (token) {
     routes = (
       <Switch>
-        <Route path="/games/:userId/" exact>
+        <Route path="/my-games/:userId" exact>
           <UserGames />
         </Route>
         <Route path="/game/new-game" exact>
           <NewGame />
         </Route>
-        <Route path="/" exact>
-          <Users />
+        <Route path="/game/:gameId" exact>
+          <InProgressGame />
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/game/new-game" />
       </Switch>
     );
   } else {

@@ -44,11 +44,8 @@ const getGamesByUserId = async (req, res, next) => {
   const userId = req.params.uid;
   let games;
   try {
-    let user = await User.findById(userId);
-    console.log(user._id)
-    games = await Game.find({ users: { $in: [userId] } }).populate(
-      'contestants'
-    );
+    const user = await User.findById(userId);
+    games = await Game.find({ "users": { $in: [user._id] } }).populate("contestants");
   } catch (err) {
     return next(
       new HttpError(
@@ -77,7 +74,6 @@ const joinOrCreateGame = async (req, res, next) => {
 
   // GET USER, RETURN ERROR IF FAILS
   const { nickname, duration, strategy, userId } = req.body;
-
   let user;
   try {
     user = await User.findById(userId);
@@ -99,7 +95,7 @@ const joinOrCreateGame = async (req, res, next) => {
       duration: duration,
       status: MATCHMAKING_STATUS,
       users: { $nin: [user._id] },
-    });
+    }).populate('contestants');
   } catch (err) {
     return next(new HttpError('Finding game failed, please try again.', 500));
   }
@@ -115,6 +111,7 @@ const joinOrCreateGame = async (req, res, next) => {
         nickname,
         avatar: AVATAR_OPTIONS[0],
         strategy,
+        privateMessages: [],
         user: user._id,
       });
       gameMatch = new Game({
@@ -122,6 +119,7 @@ const joinOrCreateGame = async (req, res, next) => {
         status: MATCHMAKING_STATUS,
         prize: 10,
         users: [],
+        groupMessages: [],
         contestants: [],
         remainingAvatarOptions: AVATAR_OPTIONS,
       });
@@ -141,6 +139,8 @@ const joinOrCreateGame = async (req, res, next) => {
       newContestant = new Contestant({
         nickname,
         avatar: gameMatch.remainingAvatarOptions[0],
+        conversations: [],
+        isEliminated: false,
         strategy,
         user: user,
       });
@@ -158,9 +158,7 @@ const joinOrCreateGame = async (req, res, next) => {
     await newContestant.save({ session: sess });
     gameMatch.users.push(user._id);
     gameMatch.contestants.push(newContestant._id);
-    gameMatch.remainingAvatarOptions = gameMatch.remainingAvatarOptions.slice(
-      1
-    );
+    gameMatch.remainingAvatarOptions = gameMatch.remainingAvatarOptions.slice(1);
     if (gameMatch.contestants.length === MAX_PLAYERS) {
       gameMatch.status = IN_PROGRESS_STATUS;
       console.log('Game Filled');

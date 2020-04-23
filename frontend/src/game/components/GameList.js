@@ -22,10 +22,12 @@ const GameList = props => {
       {props.items.map(game => (
         <GameItem
           key={game.id}
+          id={game.id}
           length={game.type}
           status={game.status}
           prize={game.prize}
           contestants={game.contestants}
+          contestantsRemaining={game.contestantsRemaining}
         />
       ))}
     </ul>
