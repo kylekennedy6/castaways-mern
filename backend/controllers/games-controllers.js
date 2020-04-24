@@ -107,22 +107,24 @@ const joinOrCreateGame = async (req, res, next) => {
   if (!gameMatch) {
     console.log('No games are in matchmaking... Creating new game.');
     try {
-      newContestant = new Contestant({
-        nickname,
-        avatar: AVATAR_OPTIONS[0],
-        strategy,
-        privateMessages: [],
-        user: user._id,
-      });
       gameMatch = new Game({
         duration,
         status: MATCHMAKING_STATUS,
         prize: 10,
         users: [],
-        groupMessages: [],
+        tribeConversation: [],
         contestants: [],
         remainingAvatarOptions: AVATAR_OPTIONS,
       });
+      newContestant = new Contestant({
+        nickname,
+        avatar: AVATAR_OPTIONS[0],
+        strategy,
+        privateConversations: [],
+        game: gameMatch.id,
+        user: user._id,
+      });
+
     } catch (err) {
       return next(
         new HttpError('Failed to create or join game. Please try again.', 500)
@@ -139,7 +141,7 @@ const joinOrCreateGame = async (req, res, next) => {
       newContestant = new Contestant({
         nickname,
         avatar: gameMatch.remainingAvatarOptions[0],
-        conversations: [],
+        privateConversations: [],
         isEliminated: false,
         strategy,
         user: user,

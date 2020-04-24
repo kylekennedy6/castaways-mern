@@ -2,3 +2,11 @@
   padding: 10px;
   padding-bottom: 70px;
 }
+
+.message-list h1 {
+  margin-top: 0.5rem;
+}
+
+#compose {
+  border-radius: 6px;
+}

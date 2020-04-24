@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const gamesRoutes = require('./routes/games-routes');
 const usersRoutes = require('./routes/users-routes');
 const conversationsRoutes = require('./routes/conversations-routes');
+const contestantsRoutes = require('./routes/contestants-routes.js');
 
 const HttpError = require('./models/http-error');
 
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 app.use('/api/games', gamesRoutes); // => /api/games...
 app.use('/api/users', usersRoutes);
 app.use('/api/conversations', conversationsRoutes);
+app.use('/api/contestants', contestantsRoutes);
 
 app.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);

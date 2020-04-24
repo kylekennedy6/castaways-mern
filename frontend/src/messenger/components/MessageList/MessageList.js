@@ -1,87 +1,163 @@
-import React, {useEffect, useState} from 'react';
-import Compose from '../Compose/Compose';
-import Toolbar from '../Toolbar/Toolbar';
-import ToolbarButton from '../ToolbarButton/ToolbarButton';
+import React, { useEffect, useState, useContext } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { Multiselect } from 'multiselect-react-dropdown';
+import Input from '../../../shared/components/FormElements/Input';
 import Message from '../Message/Message';
+import { useForm } from '../../../shared/hooks/form-hook';
+import { useHttpClient } from '../../../shared/hooks/http-hook';
+import { AuthContext } from '../../../shared/context/auth-context';
 import moment from 'moment';
 
 import './MessageList.css';
 
 const MY_USER_ID = 'apple';
 
-const MessageList = (props) => {
-  const [messages, setMessages] = useState([])
+const MessageList = props => {
+  const auth = useContext(AuthContext);
+  const gameId = useParams().gameId;
+  const newConversationMode =
+    window.location.href.split('private-chats')[1] === '/new';
+  const [messages, setMessages] = useState([]);
+  const [selectedValues, setSelectedValues] = useState([]);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  let options;
+  let contestantId;
+  if (props.contestants) {
+    options = props.contestants.filter(c => c.user !== auth.userId);
+    contestantId = props.contestants.find(c => c.user === auth.userId).id;
+  }
+  const [formState, inputHandler] = useForm(
+    {
+      message: {
+        value: '',
+        isValid: true,
+      },
+    },
+    false
+  );
+
+  const history = useHistory();
+
+  const keyPressHandler = event => {
+    if (event.key === 'Enter') {
+      messageSendHandler(event);
+    }
+  };
+  const messageSendHandler = async event => {
+    event.preventDefault();
+    try {
+      await sendRequest(
+        'http://localhost:5000/api/conversations',
+        'POST',
+        JSON.stringify({
+          "message": formState.inputs.message.value,
+          "recipients": selectedValues.map(v => v._id),
+          "contestantId": contestantId,
+        }),
+        {
+          Authorization: 'Bearer ' + auth.token,
+          'Content-Type': 'application/json',
+        }
+      );
+      history.push(`/${gameId}/private-chats/`);
+    } catch (err) {}
+  };
+
+  function onSelectHandler(selectedList, selectedValue) {
+    setSelectedValues([...selectedValues, selectedValue]);
+  }
+
+  function onRemoveHandler(selectedList, removedItem) {
+    const removed = [...selectedValues].filter(
+      value => value.id !== removedItem.id
+    );
+    setSelectedValues(removed);
+  }
 
   useEffect(() => {
     getMessages();
-  },[])
+  }, []);
 
-  
   const getMessages = () => {
-     var tempMessages = [
+    let tempMessages;
+    if (newConversationMode) {
+      tempMessages = [];
+    } else {
+      tempMessages = [
         {
           id: 1,
           author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
+          message:
+            'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+          timestamp: new Date().getTime(),
         },
         {
           id: 2,
           author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
+          message:
+            'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
+          timestamp: new Date().getTime(),
         },
         {
           id: 3,
           author: 'orange',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
+          message:
+            'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+          timestamp: new Date().getTime(),
         },
         {
           id: 4,
           author: 'apple',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
+          message:
+            'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
+          timestamp: new Date().getTime(),
         },
         {
           id: 5,
           author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
+          message:
+            'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+          timestamp: new Date().getTime(),
         },
         {
           id: 6,
           author: 'apple',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
+          message:
+            'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
+          timestamp: new Date().getTime(),
         },
         {
           id: 7,
           author: 'orange',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
+          message:
+            'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+          timestamp: new Date().getTime(),
         },
         {
           id: 8,
           author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
+          message:
+            'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
+          timestamp: new Date().getTime(),
         },
         {
           id: 9,
           author: 'apple',
-          message: 'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
-          timestamp: new Date().getTime()
+          message:
+            'Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.',
+          timestamp: new Date().getTime(),
         },
         {
           id: 10,
           author: 'orange',
-          message: 'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
-          timestamp: new Date().getTime()
+          message:
+            'It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!',
+          timestamp: new Date().getTime(),
         },
-      ]
-      setMessages([...messages, ...tempMessages])
-  }
+      ];
+    }
+    setMessages([...messages, ...tempMessages]);
+  };
 
   const renderMessages = () => {
     let i = 0;
@@ -102,9 +178,11 @@ const MessageList = (props) => {
 
       if (previous) {
         let previousMoment = moment(previous.timestamp);
-        let previousDuration = moment.duration(currentMoment.diff(previousMoment));
+        let previousDuration = moment.duration(
+          currentMoment.diff(previousMoment)
+        );
         prevBySameAuthor = previous.author === current.author;
-        
+
         if (prevBySameAuthor && previousDuration.as('hours') < 1) {
           startsSequence = false;
         }
@@ -140,28 +218,45 @@ const MessageList = (props) => {
     }
 
     return tempMessages;
-  }
+  };
 
-    return(
-      <div className="message-list">
-        <Toolbar
-          title="Conversation Title"
-          rightItems={[
-          ]}
+  return (
+    <div className="message-list">
+      {!isLoading && newConversationMode && options && (
+        <Multiselect
+          placeholder="To: "
+          options={options}
+          selectedValues={[]}
+          onSelect={onSelectHandler}
+          onRemove={onRemoveHandler}
+          displayValue="nickname"
         />
-
-        <div className="message-list-container">{renderMessages()}</div>
-
-        <Compose rightItems={[
-          <ToolbarButton key="photo" icon="ion-ios-camera" />,
-          <ToolbarButton key="image" icon="ion-ios-image" />,
-          <ToolbarButton key="audio" icon="ion-ios-mic" />,
-          <ToolbarButton key="money" icon="ion-ios-card" />,
-          <ToolbarButton key="games" icon="ion-logo-game-controller-b" />,
-          <ToolbarButton key="emoji" icon="ion-ios-happy" />
-        ]}/>
-      </div>
-    );
-}
+      )}
+      {!newConversationMode && (
+        <div className="toolbar">
+          <div className="left-items">
+            <h1 className="toolbar-title">Conversation</h1>
+          </div>
+        </div>
+      )}
+      <div className="message-list-container">{renderMessages()}</div>
+      <form
+        className="compose-form"
+        onKeyPress={keyPressHandler}
+        onSubmit={messageSendHandler}
+      >
+        <Input
+          id="message"
+          element="input"
+          placeholder="Type a message..."
+          type="text"
+          validators={[]}
+          errorText="Cannot send phone numbers"
+          onInput={inputHandler}
+        />
+      </form>
+    </div>
+  );
+};
 
 export default MessageList;

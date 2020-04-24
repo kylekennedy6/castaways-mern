@@ -4,14 +4,13 @@ import MessageList from '../MessageList/MessageList';
 import './Messenger.css';
 
 const Messenger = props => {
-  console.log(props)
     return (
       <div className="messenger">
         <div className="scrollable sidebar">
-          <ConversationList opponents={props.opponents}/>
+          <ConversationList items={props.items} onDeleteConversation={props.onDeleteConversation} newConversation={props.newConversation} />
         </div>
         <div className="scrollable content">
-          <MessageList />
+          <MessageList contestants={props.contestants} />
         </div>
       </div>
     );

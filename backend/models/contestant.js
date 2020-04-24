@@ -6,7 +6,8 @@ const contestantSchema = new Schema({
   nickname: { type: String, required: true },
   avatar: { type: String, required: true },
   strategy: { type: String, required: true },
-  privateMessages: [{ type: mongoose.Types.ObjectId, ref: 'Message' }],
+  privateConversations: [{ type: mongoose.Types.ObjectId, ref: 'Conversation' }],
+  game: { type: mongoose.Types.ObjectId, ref: 'Game'},
   user: { type: mongoose.Types.ObjectId, ref: 'User'}
 });
 

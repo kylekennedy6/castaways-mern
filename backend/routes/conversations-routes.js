@@ -5,9 +5,9 @@ const conversationsControllers = require('../controllers/conversations-controlle
 
 const router = express.Router();
 
-router.get('/', conversationsControllers.getConversations);
+router.get('/', conversationsControllers.getConversationsByContestantId);
 
-router.post('/create', conversationsControllers.createConversation);
+router.post('/', conversationsControllers.createConversation);
 
 router.delete('/login', conversationsControllers.deleteConversation);
 

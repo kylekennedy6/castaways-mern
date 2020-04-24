@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
 import shave from 'shave';
 
 import Modal from '../../../shared/components/UIElements/Modal';
 import Button from '../../../shared/components/FormElements/Button';
 import './ConversationListItem.css';
 
-export default function ConversationListItem(props) {
+const ConversationListItem = (props) => {
+  const gameId = useParams().gameId;
+  const conversationId = props.data.id;
   useEffect(() => {
     shave('.conversation-snippet', 20);
   });
@@ -47,7 +50,7 @@ export default function ConversationListItem(props) {
       Deleted conversations cannot be recovered.
     </p>
   </Modal>
-    <div className="conversation-list-item">
+    <NavLink className="conversation-list-item" to={`/${gameId}/private-chats/${conversationId}`} exact >
       <img className="conversation-photo" src={avatar} alt="conversation" />
       <div className="conversation-info">
         <h1 className="conversation-title">{nickname}</h1>
@@ -56,7 +59,9 @@ export default function ConversationListItem(props) {
       <div className="delete-conversation-icon">
         <i className="toolbar-button ion-ios-close-circle-outline" onClick={showDeleteWarningHandler} />
       </div>
-    </div>
+    </NavLink>
     </React.Fragment>
   );
 }
+
+export default ConversationListItem;

@@ -7,12 +7,17 @@ import {
 } from 'react-router-dom';
 
 import NewGame from './game/pages/NewGame';
-import InProgressGame from './game/pages/InProgressGame';
+import ActivityFeed from './game/pages/ActivityFeed';
+import TribeChat from './game/pages/TribeChat';
+import PrivateConversations from './game/pages/PrivateConversations';
+import NewConversation from './game/pages/NewConversation';
+import TribeStats from './game/pages/TribeStats';
 import UserGames from './game/pages/UserGames';
 import Auth from './user/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
 import { useAuth } from './shared/hooks/auth-hook';
+import MostRecentPrivateConversationGetter from './game/pages/MostRecentPrivateConversationGetter';
 
 const App = () => {
   const { token, login, logout, userId } = useAuth();
@@ -25,13 +30,28 @@ const App = () => {
         <Route path="/my-games/:userId" exact>
           <UserGames />
         </Route>
-        <Route path="/game/new-game" exact>
+        <Route path="/new-game" exact>
           <NewGame />
         </Route>
-        <Route path="/game/:gameId" exact>
-          <InProgressGame />
+        <Route path="/:gameId/activity-feed" exact>
+          <ActivityFeed />
         </Route>
-        <Redirect to="/game/new-game" />
+        <Route path="/:gameId/tribe-chat" exact>
+          <TribeChat />
+        </Route>
+        <Route path="/:gameId/private-chats/" exact>
+          <MostRecentPrivateConversationGetter />
+        </Route>
+        <Route path="/:gameId/private-chats/new" exact>
+          <NewConversation />
+        </Route>
+        <Route path="/:gameId/private-chats/:conversationId" exact>
+          <PrivateConversations />
+        </Route>
+        <Route path="/:gameId/tribe-stats/" exact>
+          <TribeStats />
+        </Route>
+        <Redirect to="/new-game" />
       </Switch>
     );
   } else {

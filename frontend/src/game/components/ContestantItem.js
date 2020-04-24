@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '../../shared/components/UIElements/Avatar';
 import Card from '../../shared/components/UIElements/Card';
@@ -7,24 +7,12 @@ import Card from '../../shared/components/UIElements/Card';
 import './ContestantItem.css';
 
 const ContestantItem = props => {
-  const userId = useParams().userId;
-
-  const [showChat, setShowChat] = useState(false);
-
-  const openChatHandler = () => {
-    console.log('Click');
-    setShowChat(true);
-  };
-
-  const closeChatHandler = () => {
-    setShowChat(false);
-  };
 
   return (
     <React.Fragment>
       <li className="contestant-item">
         <Card className="contestant-item__content">
-          <Link onClick={openChatHandler}>
+          <Link>
             <div className="contestant-item__avatar">
               <Avatar image={props.avatar} alt={props.nickname}/>
             </div>
