@@ -18,11 +18,8 @@ const getConversationsByContestantId = async (req, res, next) => {
 };
 
 const createConversation = async (req, res, next) => {
-  console.log(req.body)
   const { message, recipients, contestantId } = req.body
-  console.log(message)
-  console.log(recipients)
-  console.log(contestantId)
+
   let creatorContestant;
   try {
     creatorContestant = await Contestant.findById(contestantId);

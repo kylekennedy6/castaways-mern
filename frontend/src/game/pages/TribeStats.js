@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InProgressGame from '../components/InProgressGame';
+import InProgressGame from '../game/InProgressGame';
 
 const TribeStats = () => {
   return (

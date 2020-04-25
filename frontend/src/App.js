@@ -39,15 +39,6 @@ const App = () => {
         <Route path="/:gameId/tribe-chat" exact>
           <TribeChat />
         </Route>
-        <Route path="/:gameId/private-chats/" exact>
-          <MostRecentPrivateConversationGetter />
-        </Route>
-        <Route path="/:gameId/private-chats/new" exact>
-          <NewConversation />
-        </Route>
-        <Route path="/:gameId/private-chats/:conversationId" exact>
-          <PrivateConversations />
-        </Route>
         <Route path="/:gameId/tribe-stats/" exact>
           <TribeStats />
         </Route>

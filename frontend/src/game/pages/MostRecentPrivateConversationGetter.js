@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import InProgressGame from '../components/InProgressGame';
+import InProgressGame from '../game/InProgressGame';
 import Messenger from '../../messenger/components/Messenger/Messenger';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';

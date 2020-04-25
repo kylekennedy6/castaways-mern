@@ -24,9 +24,15 @@
 }
 
 .game-item__info h2,
-.game-item__info h3,
-.game-item__info p {
+.game-item__info h3 {
+  color: #fd7f68; 
   margin: 0 0 0.5rem 0;
+}
+
+.game-item__info p {
+  color: #fd9481;
+  margin: 0 0 0.5rem 0;
+  font-size: .75rem;
 }
 
 .game-item__actions {

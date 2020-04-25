@@ -10,6 +10,14 @@
   text-align: center;
 }
 
+.authentication h2 {
+  color: #fd7f68;
+}
+
+.authentication label {
+  color: #fd7f68;
+}
+
 .authentication form {
   margin-bottom: 1rem;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import ContestantList from './ContestantList';
+import ContestantList from '../contestants/ContestantList';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal.js';

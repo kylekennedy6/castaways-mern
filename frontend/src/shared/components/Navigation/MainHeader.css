@@ -1,6 +1,6 @@
 .main-header {
   width: 100%;
-  height: 4rem;
+  height: 5rem;
   display: flex;
   align-items: center;
   position: fixed;
@@ -13,7 +13,10 @@
 }
 
 main {
-  margin-top: 5rem;
+  margin-top: 6rem;
+  position: fixed;
+  height: 100%;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
